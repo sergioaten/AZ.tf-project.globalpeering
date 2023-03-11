@@ -77,6 +77,7 @@ resource "azurerm_network_interface" "nic-ue" {
     name                = "EastUS-NIC"
     location            = "eastus"
     resource_group_name = azurerm_resource_group.rg.name
+    
     ip_configuration {
         name                            = "internal"
         subnet_id                       = azurerm_subnet.subnet-ue.id
@@ -137,6 +138,7 @@ resource "azurerm_network_interface" "nic-euw" {
     name                = "WestEurope-NIC"
     location            = "westeurope"
     resource_group_name = azurerm_resource_group.rg.name
+
     ip_configuration {
         name                            = "internal"
         subnet_id                       = azurerm_subnet.subnet-euw.id
@@ -189,6 +191,7 @@ resource "null_resource" "shellscript" {
             "/tmp/script.sh"
         ]
     }
+
     depends_on = [
         azurerm_linux_virtual_machine.vm-ue,
         azurerm_linux_virtual_machine.vm-euw
