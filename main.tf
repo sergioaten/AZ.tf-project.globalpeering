@@ -78,7 +78,7 @@ resource "azurerm_linux_virtual_machine" "vm-ue" {
     }
 
     provisioner "file" {
-        source = "script.sh"
+        source      = "script.sh"
         destination = "/tmp/script.sh"
     }
 
@@ -166,22 +166,22 @@ resource "azurerm_network_interface" "nic-euw" {
 
 #Network -> Peering 1 to 2
 resource "azurerm_virtual_network_peering" "peer-ue-euw" {
-    name                      = "peer-EastUS-WestEurope"
-    resource_group_name       = azurerm_resource_group.rg.name
-    virtual_network_name      = azurerm_virtual_network.vnet-ue.name
-    remote_virtual_network_id = azurerm_virtual_network.vnet-euw.id
-    allow_virtual_network_access = true
-    allow_forwarded_traffic      = true
-    allow_gateway_transit = false
+    name                            = "peer-EastUS-WestEurope"
+    resource_group_name             = azurerm_resource_group.rg.name
+    virtual_network_name            = azurerm_virtual_network.vnet-ue.name
+    remote_virtual_network_id       = azurerm_virtual_network.vnet-euw.id
+    allow_virtual_network_access    = true
+    allow_forwarded_traffic         = true
+    allow_gateway_transit           = false
 }
 
 #Network -> Peering 2 to 1
 resource "azurerm_virtual_network_peering" "peer-euw-ue" {
-    name                      = "peer-WestEurope-EastUS"
-    resource_group_name       = azurerm_resource_group.rg.name
-    virtual_network_name      = azurerm_virtual_network.vnet-euw.name
-    remote_virtual_network_id = azurerm_virtual_network.vnet-ue.id
-    allow_virtual_network_access = true
-    allow_forwarded_traffic      = true
-    allow_gateway_transit = false
+    name                            = "peer-WestEurope-EastUS"
+    resource_group_name             = azurerm_resource_group.rg.name
+    virtual_network_name            = azurerm_virtual_network.vnet-euw.name
+    remote_virtual_network_id       = azurerm_virtual_network.vnet-ue.id
+    allow_virtual_network_access    = true
+    allow_forwarded_traffic         = true
+    allow_gateway_transit           = false
 }
