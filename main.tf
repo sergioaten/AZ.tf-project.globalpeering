@@ -5,12 +5,6 @@ terraform {
             version = "3.46.0"
         }
     }
-    backend "azurerm" {
-        resource_group_name     = "azure-devops"
-        storage_account_name    = "azuredevopsmsm"
-        container_name          = "terraform"
-        key                     = "terraform.tfstate"
-    }
 }
 
 provider "azurerm" {
@@ -46,7 +40,7 @@ resource "azurerm_public_ip" "pip" {
     name                = "EastUS-PIP"
     resource_group_name = azurerm_resource_group.rg.name
     location            = "eastus"
-    allocation_method   = "Dynamic"
+    allocation_method   = "Static"
 }
 
 #Virtual machine
@@ -75,18 +69,6 @@ resource "azurerm_linux_virtual_machine" "vm-ue" {
         offer       = "0001-com-ubuntu-server-jammy"
         sku         = "22_04-lts-gen2"
         version     = "latest"
-    }
-
-    provisioner "file" {
-        source      = "script.sh"
-        destination = "/tmp/script.sh"
-    }
-
-    provisioner "remote-exec" {
-        inline = [
-            "chmod +x /tmp/script.sh",
-            "./script.sh"
-        ]
     }
 }
 
@@ -184,4 +166,31 @@ resource "azurerm_virtual_network_peering" "peer-euw-ue" {
     allow_virtual_network_access    = true
     allow_forwarded_traffic         = true
     allow_gateway_transit           = false
+}
+
+### NETWORK TEST ###
+
+resource "null_resource" "shellscript" {
+    connection {
+        type        =   "ssh"
+        user        =   "azureuser"
+        host        =   azurerm_public_ip.pip.ip_address
+        private_key =   file("c:/users/sergio/downloads/sshkey.pem")
+    }
+
+    provisioner "file" {
+        source      = "script.sh"
+        destination = "/tmp/script.sh"
+    }
+
+    provisioner "remote-exec" {
+        inline     = [
+            "chmod +x /tmp/script.sh",
+            "/tmp/script.sh"
+        ]
+    }
+    depends_on = [
+        azurerm_linux_virtual_machine.vm-ue,
+        azurerm_linux_virtual_machine.vm-euw
+    ]
 }
