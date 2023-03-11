@@ -52,7 +52,7 @@ resource "azurerm_linux_virtual_machine" "vm-ue" {
     admin_username          = "azureuser"
     network_interface_ids   =   [ 
         azurerm_network_interface.nic-ue.id
-        ]
+    ]
     
     admin_ssh_key {
         username    = "azureuser"
@@ -113,7 +113,7 @@ resource "azurerm_linux_virtual_machine" "vm-euw" {
     admin_username          = "azureuser"
     network_interface_ids   =   [ 
         azurerm_network_interface.nic-euw.id
-        ]
+    ]
     
     admin_ssh_key {
         username    = "azureuser"
