@@ -171,7 +171,7 @@ resource "azurerm_virtual_network_peering" "peer-euw-ue" {
 resource "null_resource" "shellscript" {
     connection {
         type        =   "ssh"
-        user        =   "azureuser"
+        user        =   var.vmuser
         host        =   azurerm_public_ip.pip.ip_address
         private_key =   file(var.path-private-sshkey)
     }
@@ -188,7 +188,7 @@ resource "null_resource" "shellscript" {
         ]
     }
     
-        depends_on = [
+    depends_on = [
         azurerm_linux_virtual_machine.vm-ue,
         azurerm_linux_virtual_machine.vm-euw
     ]
