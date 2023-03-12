@@ -1,7 +1,7 @@
 #!/bin/bash
 ip=10.1.0.4
 
-sleep 30
+sleep 60
 
 sudo apt update
 sudo apt -y upgrade
