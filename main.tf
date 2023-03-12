@@ -184,7 +184,7 @@ resource "null_resource" "shellscript" {
     provisioner "remote-exec" {
         inline     = [
             "chmod +x /tmp/script.sh",
-            "/tmp/script.sh"
+            "sh /tmp/script.sh"
         ]
     }
     
